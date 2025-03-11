@@ -1,0 +1,15 @@
+DROP DATABASE IF EXISTS simple_user;
+
+CREATE DATABASE simple_user;
+
+USE simple_user;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    address VARCHAR(255) DEFAULT NUll,
+    phone VARCHAR(20) DEFAULT NUll,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
