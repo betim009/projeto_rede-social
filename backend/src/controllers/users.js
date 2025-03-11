@@ -1,15 +1,15 @@
-const { getLogin, findPage, createNewUser, updateUser, deleteUser } = require("../services/users");
+const { getLogin, serviceGetAll, createNewUser, updateUser, deleteUser } = require("../services/users");
 
 async function getAllUsers(req, res) {
     const { page = 1 } = req.query;  // Define o valor padrão para 1 se page não estiver presente
 
     // Define o número de resultados por página
-    const resultsPerPage = 5;
+    const resultsPerPage = 10;
 
     // Calcula o deslocamento com base na página atual
     const offset = (page - 1) * resultsPerPage;
 
-    const data = await findPage(resultsPerPage, offset);
+    const data = await serviceGetAll(resultsPerPage, offset);
     return res.status(200).json(data);
 }
 

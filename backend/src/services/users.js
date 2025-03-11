@@ -1,7 +1,7 @@
-const { selectUser, selectPage, insertUser, updateUserByID, deleteUserByID } = require("../models/users");
+const { selectUser, modelGetAll, insertUser, updateUserByID, deleteUserByID } = require("../models/users");
 
-async function findPage(count, page) {
-    const results = await selectPage(count, page);
+async function serviceGetAll(count, page) {
+    const results = await modelGetAll(count, page);
     return results;
 };
 
@@ -38,7 +38,7 @@ async function deleteUser(id) {
 
 module.exports = {
     getLogin,
-    findPage,
+    serviceGetAll,
     createNewUser,
     updateUser,
     deleteUser

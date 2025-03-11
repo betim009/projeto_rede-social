@@ -1,8 +1,8 @@
 const connection = require("./connection");
 
-const selectPage = async (count, page) => {
+const modelGetAll = async (count, page) => {
     const [result] = await connection.query(
-        'SELECT * FROM users LIMIT ? OFFSET ?',
+        'SELECT * FROM usuarios LIMIT ? OFFSET ?',
         [count, page]
     );
     return result;
@@ -11,15 +11,15 @@ const selectPage = async (count, page) => {
 async function selectUser(user) {
     const { email, password } = user;
     const [[result]] = await connection.execute(
-        'SELECT * FROM users WHERE email = ?', [email]
+        'SELECT * FROM usuarios WHERE email = ?', [email]
     );
 
     if (!result) {
-        return 1
+        return { error: 'not found email' }
     };
 
     if (password !== result.password) {
-        return 2
+        return { error: 'password not equal' }
     };
 
     return result;
@@ -28,7 +28,7 @@ async function selectUser(user) {
 async function insertUser(user) {
     const { name, email, password } = user;
     const [{ insertId }] = await connection.execute(
-        'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+        'INSERT INTO usuarios (name, email, password) VALUES (?, ?, ?)',
         [name, email, password]
     );
     return insertId;
@@ -38,7 +38,7 @@ async function updateUserByID(id, data) {
     const { address, phone } = data;
 
     const result = await connection.execute(
-        'UPDATE users SET address = ?, phone = ? WHERE id = ?',
+        'UPDATE usuarios SET address = ?, phone = ? WHERE id = ?',
         [address, phone, id]
     );
     return result;
@@ -46,7 +46,7 @@ async function updateUserByID(id, data) {
 
 async function deleteUserByID(id) {
     const result = await connection.execute(
-        'DELETE FROM users WHERE id = ?',
+        'DELETE FROM usuarios WHERE id = ?',
         [id]
     );
     return result;
@@ -54,7 +54,7 @@ async function deleteUserByID(id) {
 
 module.exports = {
     selectUser,
-    selectPage,
+    modelGetAll,
     insertUser,
     updateUserByID,
     deleteUserByID
